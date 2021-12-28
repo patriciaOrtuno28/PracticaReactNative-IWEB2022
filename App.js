@@ -13,9 +13,9 @@ export default function App() {
     <SafeAreaView style={{flex: 1}}>
       <NavigationContainer>
         <Tab.Navigator>
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="TicTacToe" component={TicTacToeScreen} />
-        <Tab.Screen name="Quiz" component={QuizScreen} />
+          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="TicTacToe" component={TicTacToeScreen} />
+          <Tab.Screen name="Quiz" component={QuizScreen} />
         </Tab.Navigator>
       </NavigationContainer>
     </SafeAreaView>

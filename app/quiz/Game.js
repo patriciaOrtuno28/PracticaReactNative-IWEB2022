@@ -1,5 +1,6 @@
-import { Image, View, TextInput } from 'react-native';
+import { Image, View, TextInput, Text } from 'react-native';
 import { TouchableHighlight } from 'react-native-web';
+import  {useState} from 'react';
 
 export default function Game (props) {
     /*
@@ -11,7 +12,7 @@ export default function Game (props) {
     var localScore = 0;
 
     // Comprobar respuesta a la pregunta del Quiz válida
-    _checkValid = (text) => {
+    const checkValid = (text) => {
         if (text.toLowerCase() === props.quiz.answer.toLowerCase()){
             answers[props.currentQuiz] = true;
             setAnswers(answers);
@@ -67,7 +68,7 @@ export default function Game (props) {
                 source={{uri: props.quiz.attachment ? props.quiz.attachment.url : 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg'}}/>
                 <Text>Question {props.quiz.id}</Text>
                 <Text>{props.quiz.question}</Text>
-                <TextInput placeholder="Type your answer here" onChangeText={_checkValid}/>
+                <TextInput placeholder="Type your answer here" onChangeText={checkValid}/>
                 <View style={{
                     flex: 2,
                     flexDirection: 'row', 

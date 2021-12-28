@@ -3,7 +3,7 @@ import axios from "axios";
 import { Image, View } from 'react-native';
 import  {useState} from 'react';
 import  {useEffect} from 'react';
-import React from "react";
+import React, {useRef} from "react";
 
 export default function Quiz() {  
   // Inicialización de parámetros como Hooks
@@ -11,6 +11,7 @@ export default function Quiz() {
   const [finished, setFinished] = useState(false);
   const [currentQuiz, setCurrentQuiz] = useState(0);
   const [quizzesArray, setQuizzes] = useState([]);
+  const componentMounted = useRef(true);
 
   // Usamos axios por su bajo peso, rapidez en las peticiones y soporte de plataformas  
   const consultaAPI = async () => {
@@ -18,12 +19,17 @@ export default function Quiz() {
       method: 'GET',
       url: 'https://core.dit.upm.es/api/quizzes/random10wa?token=0a72635966eb3864d6fe'
     }).then(res => {    // Es una promesa -> .then
-      setQuizzes(res.data);
+      if(componentMounted.current) {
+        setQuizzes(res.data);
+      }
     }).catch(err => console.log(err))
   }
 
   useEffect(() => {
     consultaAPI();
+    return () => {
+      componentMounted.current = false;
+    }
   }, []);
 
   const resetGame = () => {
