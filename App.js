@@ -1,12 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import HomeScreen from './app/HomeScreen';
+import GameScreen from './app/tictactoe/GameScreen';
+
+const Tab = createMaterialTopTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView>
+      <NavigationContainer>
+        <Tab.Navigator>
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="TicTacToe" component={GameScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </SafeAreaView>
   );
 }
 
