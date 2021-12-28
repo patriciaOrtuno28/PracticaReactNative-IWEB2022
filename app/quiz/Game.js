@@ -1,5 +1,4 @@
-import { Image, View, TextInput, Text } from 'react-native';
-import { TouchableHighlight } from 'react-native-web';
+import { Image, View, TextInput, Text, TouchableHighlight } from 'react-native';
 import  {useState} from 'react';
 
 export default function Game (props) {
