@@ -1,9 +1,10 @@
 import Game from "./Game";
 import axios from "axios";
-import { ActivityIndicator, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import  {useState} from 'react';
 import  {useEffect} from 'react';
 import React, {useRef} from "react";
+import * as Progress from 'react-native-progress';
 
 export default function Quiz() {  
   // Inicialización de parámetros como Hooks
@@ -44,11 +45,17 @@ export default function Quiz() {
     <View>
       {
       quizzesArray.length >= 1 ? 
-      <View>
-        <Game quizzes={quizzesArray} quiz={quizzesArray[currentQuiz]} currentQuiz={currentQuiz} setCurrentQuiz={setCurrentQuiz} nQuizzes={quizzesArray.length} setScore={setScore} score={score} setFinished={setFinished} finished={finished} resetGame={resetGame}/>
-      </View>
-      : <ActivityIndicator size="large"><Text>Loading questions...</Text></ActivityIndicator>
-    }
+      <Game quizzes={quizzesArray} 
+      quiz={quizzesArray[currentQuiz]} 
+      currentQuiz={currentQuiz} 
+      setCurrentQuiz={setCurrentQuiz} 
+      nQuizzes={quizzesArray.length} 
+      setScore={setScore} score={score} 
+      setFinished={setFinished} 
+      finished={finished} 
+      resetGame={resetGame}/>
+      : <Progress.Bar indeterminate={true} width={200}/>
+      }
     </View>
   );
 }

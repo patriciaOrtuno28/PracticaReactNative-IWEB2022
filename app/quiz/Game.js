@@ -48,12 +48,6 @@ export default function Game (props) {
         props.resetGame();
     }
 
-    // Cuenta atras
-    /*const stopTimer = () => {
-        // Comprobar que la respuesta escrita en el input antes de que se cierre el juego sea válida, y calcular puntuaciones
-        submit();
-    }*/
-
     // Mostramos una pantalla distinta según si el juego ha terminado o está en marcha
     if (!props.finished) {
         return (
