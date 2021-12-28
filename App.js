@@ -9,7 +9,7 @@ const Tab = createMaterialTopTabNavigator();
 
 export default function App() {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1}}>
       <NavigationContainer>
         <Tab.Navigator>
         <Tab.Screen name="Home" component={HomeScreen} />
