@@ -15,7 +15,11 @@ export default function Square(props) {
   }
 
   return(
-    <TouchableHighlight style={styles.square} onPress={squareClick} disabled={props.value != '-'}>
+    <TouchableHighlight 
+      style={styles.square} 
+      onPress={squareClick} 
+      disabled={props.value != '-'}
+      underlayColor={'#f5f5f5'}>
       <Text style={styles.squareText}>
         {props.value}
       </Text> 
@@ -30,11 +34,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: 'black',
-    backgroundColor: '#eee'
+    borderColor: 'white',
+    backgroundColor: 'white',
+    margin: 2,
+    borderRadius: 8,
+    shadowColor: '#192231',
+    shadowRadius: 4,
+    shadowOffset: {width: 4, height: 4},
+    elevation: 4
   },
   squareText: {
-    fontSize: 60
+    fontSize: 60,
+    color: '#192231'
   }
 
 });

@@ -1,16 +1,21 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {Text, StyleSheet} from 'react-native';
 
 export default function Header(props) {
     return (
-      <Text style={styles.header}>Turn: {props.text}</Text>
+      <Text style={styles.title}>Turn: {props.text}</Text>
     );
 }
 
 const styles = StyleSheet.create({
-  header: { 
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
     textAlign: 'center',
-    fontSize: 25,
-    padding: 30
+    paddingBottom: 15,
+    color: 'white',
+    textShadowOffset: {width: 2, height: 2},
+    textShadowRadius: 10,
+    textShadowColor: '#192231',
   }
 });

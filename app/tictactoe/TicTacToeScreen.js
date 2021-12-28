@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 import React, { useState, useEffect } from 'react';
 import Header from './Header.jsx';
@@ -58,13 +58,28 @@ export default function App(props) {
   let text = "Turn of " + turn;
 
   return (
-    <View style={{flex:1, margin: 30}}>
+    <View style={styles.container}>
       <Header text={text}/>
       <Board values={values}  appClick={appClick}/>
-      <Text style={{fontSize: 25, padding: 30, textAlign:'center'}}>Number of moves: {moves}</Text>
+      <Text style={styles.subtitle}>Number of moves: {moves}</Text>
       <Reset resetClick={resetClick}></Reset>
     </View>
   );
 
-
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 30,
+    backgroundColor: '#494E6B',
+    height: '100%',
+    width: '100%'
+  },
+  subtitle: {
+    fontSize: 25,
+    textAlign: 'center',
+    paddingVertical: 25,
+    color: 'white'
+  }
+})

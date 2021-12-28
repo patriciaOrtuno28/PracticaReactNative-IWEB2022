@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -12,7 +12,12 @@ export default function App() {
   return (
     <SafeAreaView style={{flex: 1}}>
       <NavigationContainer>
-        <Tab.Navigator>
+        <Tab.Navigator tabBarOptions={{
+          indicatorStyle: {
+            borderColor: '#985E6D',
+            borderBottomWidth: 4
+          }
+        }}>
           <Tab.Screen name="Home" component={HomeScreen} />
           <Tab.Screen name="TicTacToe" component={TicTacToeScreen} />
           <Tab.Screen name="Quiz" component={QuizScreen} />
