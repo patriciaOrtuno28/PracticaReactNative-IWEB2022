@@ -1,4 +1,4 @@
-import { Image, View, TextInput, Text, TouchableHighlight } from 'react-native';
+import { Image, View, TextInput, Text, TouchableHighlight, StyleSheet, ScrollView } from 'react-native';
 import  {useState} from 'react';
 
 export default function Game (props) {
@@ -51,37 +51,92 @@ export default function Game (props) {
     // Mostramos una pantalla distinta según si el juego ha terminado o está en marcha
     if (!props.finished) {
         return (
-            <View style={{
-                flex: 1,
-                flexDirection: 'column',
-                alignItems: 'center'
-            }}>
+            <ScrollView style={styles.container}>
                 <Image resizeMode='contain'
                 style={{flex:1}}
                 source={{uri: props.quiz.attachment ? props.quiz.attachment.url : 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg'}}/>
-                <Text>Question {props.quiz.id}</Text>
-                <Text>{props.quiz.question}</Text>
-                <TextInput placeholder="Type your answer here" onChangeText={checkValid}/>
-                <View style={{
-                    flex: 2,
-                    flexDirection: 'row', 
-                    alignItems: 'center'
-                }}>
-                    <TouchableHighlight onPress={submit}><Text>Submit</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={before} disabled={props.currentQuiz===0}><Text>Previous</Text></TouchableHighlight>
-                    <TouchableHighlight onPress={next} disabled={props.currentQuiz===props.nQuizzes-1}><Text>Next</Text></TouchableHighlight>
+                <Text style={styles.subtitle}>Question {props.quiz.id}</Text>
+                <Text style={styles.title} numberOfLines={10}>{props.quiz.question}</Text>
+                <TextInput 
+                    placeholder="Type your answer here..." 
+                    onChangeText={checkValid} 
+                    style={styles.input}
+                    selectionColor={'#192231'}/>
+                <View style={styles.containerBtns}>
+                    <TouchableHighlight onPress={submit} underlayColor={'#494E6B'}>
+                        <Text style={styles.button}>Submit</Text>
+                    </TouchableHighlight>
+                    <TouchableHighlight onPress={before} disabled={props.currentQuiz===0} underlayColor={'#494E6B'}>
+                        <Text style={styles.button}>Previous</Text>
+                    </TouchableHighlight>
+                    <TouchableHighlight onPress={next} disabled={props.currentQuiz===props.nQuizzes-1} underlayColor={'#494E6B'}>
+                        <Text style={styles.button}>Next</Text>
+                    </TouchableHighlight>
                 </View>
-            </View>)
+            </ScrollView>
+        );
     } else {
         return (
-            <View style={{
-                flex: 1,
-                flexDirection: 'column',
-                alignItems: 'center'
-            }}>
-                <Text>Score: {props.score}</Text>
-                <Text>{(parseInt(props.score)/parseInt(props.nQuizzes))*100}% {lang.game_correct}</Text>
-                <TouchableHighlight onPress={playAgain}>Play Again</TouchableHighlight>
-            </View>)
+            <View style={styles.container}>
+                <Text style={styles.title}>Score: {props.score}</Text>
+                <Text style={styles.subtitle}>{(parseInt(props.score)/parseInt(props.nQuizzes))*100}% correct</Text>
+                <TouchableHighlight onPress={playAgain}><Text style={styles.button}>Play Again</Text></TouchableHighlight>
+            </View>
+        );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      flexDirection: 'column',
+      padding: 20
+    },
+    title: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        paddingBottom: 25,
+        color: 'white',
+        textShadowOffset: {width: 2, height: 2},
+        textShadowRadius: 10,
+        textShadowColor: '#192231',
+    },
+    subtitle: {
+        fontSize: 25,
+        textAlign: 'center',
+        paddingBottom: 25,
+        color: 'white'
+    },
+    button: {
+        borderWidth: 1,
+        borderColor: 'white',
+        backgroundColor: 'white',
+        color: '#192231',
+        fontSize: 25,
+        textAlign: 'center',
+        padding: 10,
+        borderRadius: 8,
+        shadowColor: '#192231',
+        shadowRadius: 4,
+        shadowOffset: {width: 4, height: 4},
+        elevation: 4
+    },
+    input: {
+        borderColor: 'white',
+        backgroundColor: 'white',
+        color: '#192231',
+        width: "100%",
+        borderWidth: 1,
+        borderRadius: 10,
+        padding: 10,
+        fontSize: 15,
+        marginVertical: 20
+    },
+    containerBtns: {
+        flex: 1,
+        flexDirection: 'row', 
+        alignItems: 'center',
+        justifyContent: 'space-evenly'
+    }
+})

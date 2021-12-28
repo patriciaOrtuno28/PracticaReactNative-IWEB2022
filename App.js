@@ -12,8 +12,8 @@ export default function App() {
   return (
     <SafeAreaView style={{flex: 1}}>
       <NavigationContainer>
-        <Tab.Navigator tabBarOptions={{
-          indicatorStyle: {
+        <Tab.Navigator screenOptions={{
+          tabBarIndicatorStyle: {
             borderColor: '#985E6D',
             borderBottomWidth: 4
           }

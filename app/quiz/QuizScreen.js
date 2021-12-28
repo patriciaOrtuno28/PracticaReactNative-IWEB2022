@@ -1,6 +1,6 @@
 import Game from "./Game";
 import axios from "axios";
-import { View, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import  {useState} from 'react';
 import  {useEffect} from 'react';
 import React, {useRef} from "react";
@@ -42,20 +42,28 @@ export default function Quiz() {
 
   // Visualización
   return(
-    <View>
+    <View style={styles.container}>
       {
       quizzesArray.length >= 1 ? 
-      <Game quizzes={quizzesArray} 
-      quiz={quizzesArray[currentQuiz]} 
-      currentQuiz={currentQuiz} 
-      setCurrentQuiz={setCurrentQuiz} 
-      nQuizzes={quizzesArray.length} 
-      setScore={setScore} score={score} 
-      setFinished={setFinished} 
-      finished={finished} 
-      resetGame={resetGame}/>
+      <Game 
+        quizzes={quizzesArray} 
+        quiz={quizzesArray[currentQuiz]} 
+        currentQuiz={currentQuiz} 
+        setCurrentQuiz={setCurrentQuiz} 
+        nQuizzes={quizzesArray.length} 
+        setScore={setScore} score={score} 
+        setFinished={setFinished} 
+        finished={finished} 
+        resetGame={resetGame}/>
       : <Progress.Bar indeterminate={true} width={200}/>
       }
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#494E6B'
+  }
+})
