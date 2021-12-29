@@ -1,5 +1,6 @@
 import { Image, View, TextInput, Text, TouchableHighlight, StyleSheet, ScrollView } from 'react-native';
-import  {useState} from 'react';
+import  React, {useState} from 'react';
+import { Keyboard } from 'react-native';
 
 export default function Game (props) {
     /*
@@ -9,6 +10,7 @@ export default function Game (props) {
     let nullArray = new Array(props.nQuizzes).fill(false);
     const [answers, setAnswers] = useState(nullArray);
     var localScore = 0;
+    const textInput = React.useRef(null);
 
     // Comprobar respuesta a la pregunta del Quiz válida
     const checkValid = (text) => {
@@ -24,11 +26,13 @@ export default function Game (props) {
     // Botón siguiente
     const before = () => {
         props.setCurrentQuiz(props.currentQuiz  - 1);
+        textInput.current.clear();
     }
 
     // Botón anterior
     const next = () => {
         props.setCurrentQuiz(props.currentQuiz  + 1);
+        textInput.current.clear();
     }
 
     // Botón enviar
@@ -53,7 +57,7 @@ export default function Game (props) {
         return (
             <ScrollView style={styles.container}>
                 <Image resizeMode='contain'
-                style={{flex:1}}
+                style={{flex:1, aspectRatio: 1.5}}
                 source={{uri: props.quiz.attachment ? props.quiz.attachment.url : 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg'}}/>
                 <Text style={styles.subtitle}>Question {props.quiz.id}</Text>
                 <Text style={styles.title} numberOfLines={10}>{props.quiz.question}</Text>
@@ -61,16 +65,17 @@ export default function Game (props) {
                     placeholder="Type your answer here..." 
                     onChangeText={checkValid} 
                     style={styles.input}
-                    selectionColor={'#192231'}/>
+                    selectionColor={'#192231'}
+                    ref={textInput}/>
                 <View style={styles.containerBtns}>
                     <TouchableHighlight onPress={submit} underlayColor={'#494E6B'}>
                         <Text style={styles.button}>Submit</Text>
                     </TouchableHighlight>
                     <TouchableHighlight onPress={before} disabled={props.currentQuiz===0} underlayColor={'#494E6B'}>
-                        <Text style={styles.button}>Previous</Text>
+                        <Text style={props.currentQuiz===0 ? styles.disabled : styles.button}>Previous</Text>
                     </TouchableHighlight>
                     <TouchableHighlight onPress={next} disabled={props.currentQuiz===props.nQuizzes-1} underlayColor={'#494E6B'}>
-                        <Text style={styles.button}>Next</Text>
+                        <Text style={props.currentQuiz===props.nQuizzes-1 ? styles.disabled : styles.button}>Next</Text>
                     </TouchableHighlight>
                 </View>
             </ScrollView>
@@ -105,7 +110,7 @@ const styles = StyleSheet.create({
     subtitle: {
         fontSize: 25,
         textAlign: 'center',
-        paddingBottom: 25,
+        paddingVertical: 25,
         color: 'white'
     },
     button: {
@@ -137,6 +142,21 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row', 
         alignItems: 'center',
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
+        paddingBottom: Platform.OS === 'android' ? 35 : 0
+    },
+    disabled: {
+        borderWidth: 1,
+        borderColor: 'rgba(223, 220, 221, 0.6)',
+        backgroundColor: 'rgba(223, 220, 221, 0.6)',
+        color: 'rgba(26, 26, 26, 0.6)',
+        fontSize: 25,
+        textAlign: 'center',
+        padding: 10,
+        borderRadius: 8,
+        shadowColor: '#192231',
+        shadowRadius: 4,
+        shadowOffset: {width: 4, height: 4},
+        elevation: 4
     }
 })
