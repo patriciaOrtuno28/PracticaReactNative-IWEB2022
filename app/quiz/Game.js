@@ -1,6 +1,5 @@
 import { Image, View, TextInput, Text, TouchableHighlight, StyleSheet, ScrollView } from 'react-native';
 import  React, {useState} from 'react';
-import { Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -48,50 +47,59 @@ export default function Game (props) {
         props.setFinished(true);
     }
 
-    //Botón save
+    // Botón save
     const save = async () => {
-        
-            await AsyncStorage.setItem('@P5_2021_IWEB:quiz',props.quizzes);
-            /*var quizzestorage = await AsyncStorage.getItem('@P5_2021_IWEB:quiz');
-            if(quizzestorage!==null){
+        await AsyncStorage.setItem('@P5_2021_IWEB:quiz', JSON.stringify(props.quizzes));
+        try {
+            var quizzestorage = await AsyncStorage.getItem('@P5_2021_IWEB:quiz', (err, value) => {
+                if (err) {
+                    alert(err);
+                } else {
+                    JSON.parse(value);
+                }
+            });
+            if (quizzestorage!==null) {
                 var quizzesglobal = quizzestorage.concat(props.quizzes);
-                await AsyncStorage.setItem('@P5_2021_IWEB:quiz',quizzesglobal);
-            }else{
-                await AsyncStorage.setItem('@P5_2021_IWEB:quiz',quizzestorage);
+                await AsyncStorage.setItem('@P5_2021_IWEB:quiz', JSON.stringify(quizzesglobal));
+            } else {
+                await AsyncStorage.setItem('@P5_2021_IWEB:quiz', JSON.stringify(quizzesglobal));
             }
             alert("Guardado correctamente");
-            } catch (error) { // Error saving data 
-            }*/
-
-
+        } catch (error) {
+            alert(error); 
         }
-    //Botón load
+    }
+
+    // Botón load
     const load = async () => {
         try{
-            var quizzestorage = await AsyncStorage.getItem('@P5_2021_IWEB:quiz');
+            var quizzestorage = await AsyncStorage.getItem('@P5_2021_IWEB:quiz', (err, value) => {
+                if (err) {
+                    alert(err);
+                } else {
+                    JSON.parse(value);
+                }
+            });
             if (quizzestorage === null){
-                alert("No hay preguntas alamcenadas");
+                alert("No hay preguntas almacenadas.");
             }else{
                 setAnswers(nullArray);
                 props.resetGame();
                 props.setQuizzes(quizzestorage);
             }
-        }catch(error){
+        } catch(error){
 
         }
-
     }
-    //Boton remove
+
+    // Botón remove
     const remove = async() => {
         try {
             await AsyncStorage.removeItem('@P5_2021_IWEB:quiz');
-
-            } catch (error) { // Error saving data 
-            }
-
+        } catch (error) {
+            alert(error); 
+        }
     }
-    
-
 
     // Botón volver a jugar
     const playAgain = () => {
@@ -114,26 +122,26 @@ export default function Game (props) {
                     style={styles.input}
                     selectionColor={'#192231'}
                     ref={textInput}/>
-                <View style = {styles.containerbuttons}>
-                    <View style={styles.containerBtns}>
-                        <TouchableHighlight onPress={submit} underlayColor={'#494E6B'}>
+                <View style = {styles.containerBtnsGlobal}>
+                    <View style={styles.containerBtnsRow}>
+                        <TouchableHighlight onPress={submit} underlayColor={'#494E6B'} style={styles.btn}>
                             <Text style={styles.button}>Submit</Text>
                         </TouchableHighlight>
-                        <TouchableHighlight onPress={before} disabled={props.currentQuiz===0} underlayColor={'#494E6B'}>
+                        <TouchableHighlight onPress={before} disabled={props.currentQuiz===0} underlayColor={'#494E6B'} style={styles.btn}>
                             <Text style={props.currentQuiz===0 ? styles.disabled : styles.button}>Previous</Text>
                         </TouchableHighlight>
-                        <TouchableHighlight onPress={next} disabled={props.currentQuiz===props.nQuizzes-1} underlayColor={'#494E6B'}>
+                        <TouchableHighlight onPress={next} disabled={props.currentQuiz===props.nQuizzes-1} underlayColor={'#494E6B'} style={styles.btn}>
                             <Text style={props.currentQuiz===props.nQuizzes-1 ? styles.disabled : styles.button}>Next</Text>
                         </TouchableHighlight>
                     </View>
-                    <View style={styles.containerBtns}>
-                    <TouchableHighlight onPress={save} underlayColor={'#494E6B'}>
+                    <View style={styles.containerBtnsRow}>
+                        <TouchableHighlight onPress={save} underlayColor={'#494E6B'} style={styles.btn}>
                             <Text style={styles.button}>Save</Text>
                         </TouchableHighlight>
-                        <TouchableHighlight onPress={load} underlayColor={'#494E6B'}>
+                        <TouchableHighlight onPress={load} underlayColor={'#494E6B'} style={styles.btn}>
                             <Text style={styles.button}>Load</Text>
                         </TouchableHighlight>
-                        <TouchableHighlight onPress={remove} underlayColor={'#494E6B'}>
+                        <TouchableHighlight onPress={remove} underlayColor={'#494E6B'} style={styles.btn}>
                             <Text style={styles.button}>Remove</Text>
                         </TouchableHighlight>
                     </View>
@@ -152,11 +160,6 @@ export default function Game (props) {
 }
 
 const styles = StyleSheet.create({
-    containerbuttons: {
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center'
-    },
     container: {
       flex: 1,
       flexDirection: 'column',
@@ -203,12 +206,20 @@ const styles = StyleSheet.create({
         fontSize: 15,
         marginVertical: 20
     },
-    containerBtns: {
+    containerBtnsGlobal: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+    containerBtnsRow: {
         flex: 1,
         flexDirection: 'row', 
         alignItems: 'center',
         justifyContent: 'space-evenly',
         paddingBottom: Platform.OS === 'android' ? 35 : 0
+    },
+    btn: {
+        paddingHorizontal: "2%"
     },
     disabled: {
         borderWidth: 1,
