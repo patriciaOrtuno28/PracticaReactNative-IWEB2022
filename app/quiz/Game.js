@@ -1,6 +1,8 @@
 import { Image, View, TextInput, Text, TouchableHighlight, StyleSheet, ScrollView } from 'react-native';
 import  React, {useState} from 'react';
 import { Keyboard } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function Game (props) {
     /*
@@ -46,6 +48,51 @@ export default function Game (props) {
         props.setFinished(true);
     }
 
+    //Botón save
+    const save = async () => {
+        
+            await AsyncStorage.setItem('@P5_2021_IWEB:quiz',props.quizzes);
+            /*var quizzestorage = await AsyncStorage.getItem('@P5_2021_IWEB:quiz');
+            if(quizzestorage!==null){
+                var quizzesglobal = quizzestorage.concat(props.quizzes);
+                await AsyncStorage.setItem('@P5_2021_IWEB:quiz',quizzesglobal);
+            }else{
+                await AsyncStorage.setItem('@P5_2021_IWEB:quiz',quizzestorage);
+            }
+            alert("Guardado correctamente");
+            } catch (error) { // Error saving data 
+            }*/
+
+
+        }
+    //Botón load
+    const load = async () => {
+        try{
+            var quizzestorage = await AsyncStorage.getItem('@P5_2021_IWEB:quiz');
+            if (quizzestorage === null){
+                alert("No hay preguntas alamcenadas");
+            }else{
+                setAnswers(nullArray);
+                props.resetGame();
+                props.setQuizzes(quizzestorage);
+            }
+        }catch(error){
+
+        }
+
+    }
+    //Boton remove
+    const remove = async() => {
+        try {
+            await AsyncStorage.removeItem('@P5_2021_IWEB:quiz');
+
+            } catch (error) { // Error saving data 
+            }
+
+    }
+    
+
+
     // Botón volver a jugar
     const playAgain = () => {
         setAnswers(nullArray);
@@ -67,16 +114,29 @@ export default function Game (props) {
                     style={styles.input}
                     selectionColor={'#192231'}
                     ref={textInput}/>
-                <View style={styles.containerBtns}>
-                    <TouchableHighlight onPress={submit} underlayColor={'#494E6B'}>
-                        <Text style={styles.button}>Submit</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight onPress={before} disabled={props.currentQuiz===0} underlayColor={'#494E6B'}>
-                        <Text style={props.currentQuiz===0 ? styles.disabled : styles.button}>Previous</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight onPress={next} disabled={props.currentQuiz===props.nQuizzes-1} underlayColor={'#494E6B'}>
-                        <Text style={props.currentQuiz===props.nQuizzes-1 ? styles.disabled : styles.button}>Next</Text>
-                    </TouchableHighlight>
+                <View style = {styles.containerbuttons}>
+                    <View style={styles.containerBtns}>
+                        <TouchableHighlight onPress={submit} underlayColor={'#494E6B'}>
+                            <Text style={styles.button}>Submit</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight onPress={before} disabled={props.currentQuiz===0} underlayColor={'#494E6B'}>
+                            <Text style={props.currentQuiz===0 ? styles.disabled : styles.button}>Previous</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight onPress={next} disabled={props.currentQuiz===props.nQuizzes-1} underlayColor={'#494E6B'}>
+                            <Text style={props.currentQuiz===props.nQuizzes-1 ? styles.disabled : styles.button}>Next</Text>
+                        </TouchableHighlight>
+                    </View>
+                    <View style={styles.containerBtns}>
+                    <TouchableHighlight onPress={save} underlayColor={'#494E6B'}>
+                            <Text style={styles.button}>Save</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight onPress={load} underlayColor={'#494E6B'}>
+                            <Text style={styles.button}>Load</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight onPress={remove} underlayColor={'#494E6B'}>
+                            <Text style={styles.button}>Remove</Text>
+                        </TouchableHighlight>
+                    </View>
                 </View>
             </ScrollView>
         );
@@ -92,6 +152,11 @@ export default function Game (props) {
 }
 
 const styles = StyleSheet.create({
+    containerbuttons: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
     container: {
       flex: 1,
       flexDirection: 'column',

@@ -47,7 +47,8 @@ export default function Quiz() {
       {
       quizzesArray.length >= 1 ? 
       <Game 
-        quizzes={quizzesArray} 
+        quizzes={quizzesArray}
+        setQuizzes={setQuizzes} 
         quiz={quizzesArray[currentQuiz]} 
         currentQuiz={currentQuiz} 
         setCurrentQuiz={setCurrentQuiz} 
