@@ -54,7 +54,7 @@ export default function Game (props) {
             if(error) {
                 alert(error);
             } else {
-                alert("Guardado correctamente.");
+                alert("Current questions stored.");
             }
            });
         } catch (error) {
@@ -74,14 +74,14 @@ export default function Game (props) {
                 }
             });
             if(quizzestorage === null) {
-                alert("No hay preguntas almacenadas.");
+                alert("No questions stored.");
             } else {
                 setAnswers(nullArray);
                 props.setScore(0);
                 props.setFinished(false);
                 props.setCurrentQuiz(0);
                 props.setQuizzes(quizzestorage);
-                alert("Cargado correctamente.");
+                alert("The questions have been successfully loaded.");
             }
         } catch(error) {
             alert(error);
@@ -95,7 +95,7 @@ export default function Game (props) {
                 if(err) {
                     alert(err);
                 } else {
-                    alert("Borrado correctamente.");
+                    alert("The questions have been successfully removed.");
                 }
             });
         } catch (error) {
