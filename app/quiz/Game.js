@@ -54,7 +54,7 @@ export default function Game (props) {
             if(error) {
                 alert(error);
             } else {
-                alert("Guardado correctamente");
+                alert("Guardado correctamente.");
             }
            });
         } catch (error) {
@@ -70,8 +70,7 @@ export default function Game (props) {
                 if (err) {
                     alert(err);
                 } else {
-                    quizzestorage = JSON.parse(value);
-                    
+                    quizzestorage = JSON.parse(value);   
                 }
             });
             if(quizzestorage === null) {
@@ -82,9 +81,9 @@ export default function Game (props) {
                 props.setFinished(false);
                 props.setCurrentQuiz(0);
                 props.setQuizzes(quizzestorage);
-                alert("Cargado correctamente");
+                alert("Cargado correctamente.");
             }
-        } catch(error){
+        } catch(error) {
             alert(error);
         }
     }
@@ -92,11 +91,11 @@ export default function Game (props) {
     // Botón remove
     const remove = async() => {
         try {
-            await AsyncStorage.removeItem('@P5_2021_IWEB:quiz',(error) =>{
-                if(error) {
-                    alert(error);
+            await AsyncStorage.removeItem('@P5_2021_IWEB:quiz', (err) =>{
+                if(err) {
+                    alert(err);
                 } else {
-                    alert("Borrado correctamente");
+                    alert("Borrado correctamente.");
                 }
             });
         } catch (error) {
