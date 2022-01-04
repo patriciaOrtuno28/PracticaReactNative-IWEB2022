@@ -51,9 +51,9 @@ export default function Game (props) {
     const save = async () => {
         try {
            await AsyncStorage.setItem('@P5_2021_IWEB:quiz', JSON.stringify(props.quizzes), error =>{
-            if(error){
+            if(error) {
                 alert(error);
-            }else{
+            } else {
                 alert("Guardado correctamente");
             }
            });
@@ -74,9 +74,9 @@ export default function Game (props) {
                     
                 }
             });
-            if (quizzestorage === null){
+            if(quizzestorage === null) {
                 alert("No hay preguntas almacenadas.");
-            }else{
+            } else {
                 setAnswers(nullArray);
                 props.setScore(0);
                 props.setFinished(false);
@@ -93,9 +93,9 @@ export default function Game (props) {
     const remove = async() => {
         try {
             await AsyncStorage.removeItem('@P5_2021_IWEB:quiz',(error) =>{
-                if(error){
+                if(error) {
                     alert(error);
-                }else{
+                } else {
                     alert("Borrado correctamente");
                 }
             });
