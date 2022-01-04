@@ -49,22 +49,14 @@ export default function Game (props) {
 
     // Botón save
     const save = async () => {
-        await AsyncStorage.setItem('@P5_2021_IWEB:quiz', JSON.stringify(props.quizzes));
         try {
-            var quizzestorage = await AsyncStorage.getItem('@P5_2021_IWEB:quiz', (err, value) => {
-                if (err) {
-                    alert(err);
-                } else {
-                    JSON.parse(value);
-                }
-            });
-            if (quizzestorage!==null) {
-                var quizzesglobal = quizzestorage.concat(props.quizzes);
-                await AsyncStorage.setItem('@P5_2021_IWEB:quiz', JSON.stringify(quizzesglobal));
-            } else {
-                await AsyncStorage.setItem('@P5_2021_IWEB:quiz', JSON.stringify(quizzesglobal));
+           await AsyncStorage.setItem('@P5_2021_IWEB:quiz', JSON.stringify(props.quizzes), error =>{
+            if(error){
+                alert(error);
+            }else{
+                alert("Guardado correctamente");
             }
-            alert("Guardado correctamente");
+           });
         } catch (error) {
             alert(error); 
         }
@@ -73,29 +65,40 @@ export default function Game (props) {
     // Botón load
     const load = async () => {
         try{
-            var quizzestorage = await AsyncStorage.getItem('@P5_2021_IWEB:quiz', (err, value) => {
+            var quizzestorage;
+            await AsyncStorage.getItem('@P5_2021_IWEB:quiz', (err, value) => {
                 if (err) {
                     alert(err);
                 } else {
-                    JSON.parse(value);
+                    quizzestorage = JSON.parse(value);
+                    
                 }
             });
             if (quizzestorage === null){
                 alert("No hay preguntas almacenadas.");
             }else{
                 setAnswers(nullArray);
-                props.resetGame();
+                props.setScore(0);
+                props.setFinished(false);
+                props.setCurrentQuiz(0);
                 props.setQuizzes(quizzestorage);
+                alert("Cargado correctamente");
             }
         } catch(error){
-
+            alert(error);
         }
     }
 
     // Botón remove
     const remove = async() => {
         try {
-            await AsyncStorage.removeItem('@P5_2021_IWEB:quiz');
+            await AsyncStorage.removeItem('@P5_2021_IWEB:quiz',(error) =>{
+                if(error){
+                    alert(error);
+                }else{
+                    alert("Borrado correctamente");
+                }
+            });
         } catch (error) {
             alert(error); 
         }
