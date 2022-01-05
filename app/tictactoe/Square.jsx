@@ -1,11 +1,6 @@
 import React from 'react';
 import {TouchableHighlight, Text, StyleSheet} from 'react-native';
 
-const squareStyle = {
-  height: '100px',
-  width: '100px',
-};
-
 export default function Square(props) {
   
   function squareClick() {

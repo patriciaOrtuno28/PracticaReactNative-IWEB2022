@@ -1,0 +1,11 @@
+Integrantes:
+Daniel Sanz Sobrino
+Patricia Ortuño Otero
+
+Dispositivos:
+Dispositivos físicos de Android e iOS.
+
+Funcionalidades:
+1. Aplicación React Native del Quiz
+2. Navegación
+3. Almacenamiento de preguntas
