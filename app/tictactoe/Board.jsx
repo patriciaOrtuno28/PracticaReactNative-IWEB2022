@@ -1,6 +1,6 @@
 import React from 'react';
 import Square from './Square';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 
 export default function Board(props) {
   function boardClick(rowNumber, columnNumber) {

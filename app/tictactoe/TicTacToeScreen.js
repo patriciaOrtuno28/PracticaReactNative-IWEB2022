@@ -8,7 +8,7 @@ import Reset from './Reset.jsx';
 const PLAYERX = "Player 1 - Xs";
 const PLAYER0 = "Player 2 - 0s";
 
-export default function App(props) {
+export default function TicTacToeScreen () {
   const [turn, setTurn] = useState(PLAYERX);
   const [moves, setMoves] = useState(0);
   const [values, setValues] = useState([

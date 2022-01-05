@@ -1,13 +1,12 @@
 import Game from "./Game";
 import axios from "axios";
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import  {useState} from 'react';
 import  {useEffect} from 'react';
 import React, {useRef} from "react";
 import * as Progress from 'react-native-progress';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function Quiz() {  
+export default function QuizScreen () {  
   // Inicialización de parámetros como Hooks
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);

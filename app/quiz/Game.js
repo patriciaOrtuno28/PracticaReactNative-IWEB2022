@@ -110,6 +110,7 @@ export default function Game (props) {
     }
 
     // Mostramos una pantalla distinta según si el juego ha terminado o está en marcha
+    // Poner número máximo de líneas para la pregunta del quiz para evitar una mala jugabilidad
     if (!props.finished) {
         return (
             <ScrollView style={styles.container}>
