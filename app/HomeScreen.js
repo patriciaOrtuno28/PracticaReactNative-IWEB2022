@@ -1,12 +1,20 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { LangContext } from './LangContext';
 
-export default function HomeScreen () {
+export default function HomeScreen (props) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome!</Text>
-      <Text style={styles.subtitle}>In this webpage you will be able to play various minigames.</Text>
-      <Text style={styles.paragraph}>Click on the tab of the game you want to play!</Text>
-    </View>
+    <LangContext.Consumer>
+      {lang =>
+        <View style={styles.container}>
+          <Text style={styles.title}>{lang.home_welcome}</Text>
+          <Text style={styles.subtitle}>{lang.home_subtitle}</Text>
+          <Text style={styles.paragraph}>{lang.home_text}</Text>
+          <TouchableHighlight onPress={props.toggleLang} underlayColor={'#494E6B'} style={styles.btn}>
+            <Text style={styles.button}>{lang.lang}</Text>
+          </TouchableHighlight>
+        </View>
+      }
+    </LangContext.Consumer>
   )
 }
 
@@ -39,5 +47,23 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: 'center',
     color: 'white'
+  },
+  button: {
+    borderWidth: 1,
+    borderColor: 'white',
+    backgroundColor: 'white',
+    color: '#192231',
+    fontSize: 15,
+    textAlign: 'center',
+    padding: 10,
+    shadowColor: '#192231',
+    shadowRadius: 4,
+    shadowOffset: {width: 4, height: 4},
+    elevation: 4
+  },
+  btn: {
+    paddingHorizontal: "2%",
+    paddingTop: "75%",
+    paddingLeft: "50%"
   }
 })

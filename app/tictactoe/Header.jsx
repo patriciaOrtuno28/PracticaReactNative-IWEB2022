@@ -1,9 +1,14 @@
 import React from 'react';
 import {Text, StyleSheet} from 'react-native';
+import { LangContext } from '../LangContext';
 
 export default function Header(props) {
     return (
-      <Text style={styles.title}>Turn: {props.text}</Text>
+      <LangContext.Consumer>
+        {lang =>
+          <Text style={styles.title}>{lang.header_turn}{props.turn}</Text>
+        }
+      </LangContext.Consumer>
     );
 }
 

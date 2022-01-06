@@ -1,6 +1,7 @@
 import { Image, View, TextInput, Text, TouchableHighlight, StyleSheet, ScrollView } from 'react-native';
 import  React, {useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LangContext } from '../LangContext';
 
 
 export default function Game (props) {
@@ -113,51 +114,59 @@ export default function Game (props) {
     // Poner número máximo de líneas para la pregunta del quiz para evitar una mala jugabilidad
     if (!props.finished) {
         return (
-            <ScrollView style={styles.container}>
-                <Image resizeMode='contain'
-                style={{flex:1, aspectRatio: 1.5}}
-                source={{uri: props.quiz.attachment ? props.quiz.attachment.url : 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg'}}/>
-                <Text style={styles.subtitle}>Question {props.quiz.id}</Text>
-                <Text style={styles.title} numberOfLines={10}>{props.quiz.question}</Text>
-                <TextInput 
-                    placeholder="Type your answer here..." 
-                    onChangeText={checkValid} 
-                    style={styles.input}
-                    selectionColor={'#192231'}
-                    ref={textInput}/>
-                <View style = {styles.containerBtnsGlobal}>
-                    <View style={styles.containerBtnsRow}>
-                        <TouchableHighlight onPress={submit} underlayColor={'#494E6B'} style={styles.btn}>
-                            <Text style={styles.button}>Submit</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight onPress={before} disabled={props.currentQuiz===0} underlayColor={'#494E6B'} style={styles.btn}>
-                            <Text style={props.currentQuiz===0 ? styles.disabled : styles.button}>Previous</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight onPress={next} disabled={props.currentQuiz===props.nQuizzes-1} underlayColor={'#494E6B'} style={styles.btn}>
-                            <Text style={props.currentQuiz===props.nQuizzes-1 ? styles.disabled : styles.button}>Next</Text>
-                        </TouchableHighlight>
-                    </View>
-                    <View style={styles.containerBtnsRow}>
-                        <TouchableHighlight onPress={save} underlayColor={'#494E6B'} style={styles.btn}>
-                            <Text style={styles.button}>Save</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight onPress={load} underlayColor={'#494E6B'} style={styles.btn}>
-                            <Text style={styles.button}>Load</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight onPress={remove} underlayColor={'#494E6B'} style={styles.btn}>
-                            <Text style={styles.button}>Remove</Text>
-                        </TouchableHighlight>
-                    </View>
-                </View>
-            </ScrollView>
+            <LangContext.Consumer>
+                {lang =>
+                    <ScrollView style={styles.container}>
+                        <Image resizeMode='contain'
+                        style={{flex:1, aspectRatio: 1.5}}
+                        source={{uri: props.quiz.attachment ? props.quiz.attachment.url : 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg'}}/>
+                        <Text style={styles.subtitle}>{lang.game_question}{props.quiz.id}</Text>
+                        <Text style={styles.title} numberOfLines={10}>{props.quiz.question}</Text>
+                        <TextInput 
+                            placeholder={lang.game_insertAnswer} 
+                            onChangeText={checkValid} 
+                            style={styles.input}
+                            selectionColor={'#192231'}
+                            ref={textInput}/>
+                        <View style = {styles.containerBtnsGlobal}>
+                            <View style={styles.containerBtnsRow}>
+                                <TouchableHighlight onPress={submit} underlayColor={'#494E6B'} style={styles.btn}>
+                                    <Text style={styles.button}>{lang.btn_submit}</Text>
+                                </TouchableHighlight>
+                                <TouchableHighlight onPress={before} disabled={props.currentQuiz===0} underlayColor={'#494E6B'} style={styles.btn}>
+                                    <Text style={props.currentQuiz===0 ? styles.disabled : styles.button}>{lang.btn_prev}</Text>
+                                </TouchableHighlight>
+                                <TouchableHighlight onPress={next} disabled={props.currentQuiz===props.nQuizzes-1} underlayColor={'#494E6B'} style={styles.btn}>
+                                    <Text style={props.currentQuiz===props.nQuizzes-1 ? styles.disabled : styles.button}>{lang.btn_next}</Text>
+                                </TouchableHighlight>
+                            </View>
+                            <View style={styles.containerBtnsRow}>
+                                <TouchableHighlight onPress={save} underlayColor={'#494E6B'} style={styles.btn}>
+                                    <Text style={styles.button}>{lang.btn_save}</Text>
+                                </TouchableHighlight>
+                                <TouchableHighlight onPress={load} underlayColor={'#494E6B'} style={styles.btn}>
+                                    <Text style={styles.button}>{lang.btn_load}</Text>
+                                </TouchableHighlight>
+                                <TouchableHighlight onPress={remove} underlayColor={'#494E6B'} style={styles.btn}>
+                                    <Text style={styles.button}>{lang.btn_remove}</Text>
+                                </TouchableHighlight>
+                            </View>
+                        </View>
+                    </ScrollView>
+                }
+            </LangContext.Consumer>
         );
     } else {
         return (
-            <View style={styles.container}>
-                <Text style={styles.title}>Score: {props.score}</Text>
-                <Text style={styles.subtitle}>{(parseInt(props.score)/parseInt(props.nQuizzes))*100}% correct</Text>
-                <TouchableHighlight onPress={playAgain}><Text style={styles.button}>Play Again</Text></TouchableHighlight>
-            </View>
+            <LangContext.Consumer>
+                {lang =>
+                    <View style={styles.container}>
+                        <Text style={styles.title}>{lang.game_score}{props.score}</Text>
+                        <Text style={styles.subtitle}>{(parseInt(props.score)/parseInt(props.nQuizzes))*100}% {lang.game_correct}</Text>
+                        <TouchableHighlight onPress={playAgain}><Text style={styles.button}>{lang.game_playAgain}</Text></TouchableHighlight>
+                    </View>
+                }
+            </LangContext.Consumer>
         );
     }
 }
@@ -192,7 +201,6 @@ const styles = StyleSheet.create({
         fontSize: 25,
         textAlign: 'center',
         padding: 10,
-        borderRadius: 8,
         shadowColor: '#192231',
         shadowRadius: 4,
         shadowOffset: {width: 4, height: 4},
@@ -222,8 +230,7 @@ const styles = StyleSheet.create({
         paddingBottom: 35
     },
     btn: {
-        paddingHorizontal: "2%",
-        borderRadius: 8
+        paddingHorizontal: "2%"
     },
     disabled: {
         borderWidth: 1,
@@ -233,7 +240,6 @@ const styles = StyleSheet.create({
         fontSize: 25,
         textAlign: 'center',
         padding: 10,
-        borderRadius: 8,
         shadowColor: '#192231',
         shadowRadius: 4,
         shadowOffset: {width: 4, height: 4},

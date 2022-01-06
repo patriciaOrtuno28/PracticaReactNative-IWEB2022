@@ -1,5 +1,6 @@
 import React from 'react';
 import {TouchableHighlight, Text, StyleSheet} from 'react-native';
+import { LangContext } from '../LangContext';
 
 export default function Reset(props) {
   function click() {
@@ -7,9 +8,13 @@ export default function Reset(props) {
   }
 
   return(
-    <TouchableHighlight onPress={click} underlayColor={'#494E6B'}>
-      <Text style={styles.button}>RESET</Text>
-    </TouchableHighlight>
+    <LangContext.Consumer>
+      {lang =>
+        <TouchableHighlight onPress={click} underlayColor={'#494E6B'}>
+          <Text style={styles.button}>{lang.ttt_reset}</Text>
+        </TouchableHighlight>
+      }
+    </LangContext.Consumer>
   );
     
 }

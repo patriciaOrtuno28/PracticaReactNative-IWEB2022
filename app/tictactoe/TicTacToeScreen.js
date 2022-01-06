@@ -1,4 +1,5 @@
 import {View, Text, StyleSheet} from 'react-native';
+import { LangContext } from '../LangContext';
 
 import React, { useState, useEffect } from 'react';
 import Header from './Header.jsx';
@@ -54,18 +55,18 @@ export default function TicTacToeScreen () {
     ]);
   }
 
-  
-  let text = "Turn of " + turn;
-
   return (
-    <View style={styles.container}>
-      <Header text={text}/>
-      <Board values={values}  appClick={appClick}/>
-      <Text style={styles.subtitle}>Number of moves: {moves}</Text>
-      <Reset resetClick={resetClick}></Reset>
-    </View>
+    <LangContext.Consumer>
+      {lang =>
+        <View style={styles.container}>
+          <Header turn={turn}/>
+          <Board values={values}  appClick={appClick}/>
+          <Text style={styles.subtitle}>{lang.ttt_nMoves}{moves}</Text>
+          <Reset resetClick={resetClick}></Reset>
+        </View>
+      }
+    </LangContext.Consumer>
   );
-
 }
 
 const styles = StyleSheet.create({
