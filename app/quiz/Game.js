@@ -219,10 +219,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row', 
         alignItems: 'center',
         justifyContent: 'space-evenly',
-        paddingBottom: Platform.OS === 'android' ? 35 : 0
+        paddingBottom: 35
     },
     btn: {
-        paddingHorizontal: "2%"
+        paddingHorizontal: "2%",
+        borderRadius: 8
     },
     disabled: {
         borderWidth: 1,
